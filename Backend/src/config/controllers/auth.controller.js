@@ -45,10 +45,11 @@ async function registerUserController(req,res) {
         process.env.JWT_SECRET,
         {expiresIn:"1d"}
     )
+    const isProduction = process.env.NODE_ENV === 'production'
     res.cookie("token", token_username, {
         httpOnly: true,
-        secure: false,
-        sameSite: 'lax',
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
         path: '/',
         maxAge: 86400000
     })
@@ -93,10 +94,11 @@ async function loginUserController(req,res){
         process.env.JWT_SECRET,
         {expiresIn:"1d"}
     )
+    const isProduction = process.env.NODE_ENV === 'production'
     res.cookie("token", token_Passwd, {
         httpOnly: true,
-        secure: false,
-        sameSite: 'lax',
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
         path: '/',
         maxAge: 86400000
     });
@@ -118,10 +120,11 @@ async function logoutUserController(req,res) {
         await tokenBlacklistModel.create({token})
     }
 
+    const isProduction = process.env.NODE_ENV === 'production'
     res.clearCookie('token', {
         httpOnly: true,
-        secure: false,
-        sameSite: 'lax',
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
         path: '/'
     });
 
