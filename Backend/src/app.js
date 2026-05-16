@@ -6,9 +6,18 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
-const allowedOrigins = ["http://localhost:5173", "http://localhost:3000", "https://intervai-backend-bdks.onrender.com"]
+const allowedOrigins = [
+    "http://localhost:5173", 
+    "http://localhost:3000", 
+    "https://intervai-backend-bdks.onrender.com",
+    "https://intervai-8yx2.onrender.com"
+]
 if (process.env.FRONTEND_URL) {
-    allowedOrigins.push(process.env.FRONTEND_URL)
+    // Remove trailing slash if present to avoid CORS mismatch
+    const envUrl = process.env.FRONTEND_URL.endsWith('/') 
+        ? process.env.FRONTEND_URL.slice(0, -1) 
+        : process.env.FRONTEND_URL;
+    allowedOrigins.push(envUrl);
 }
 
 app.use(cors({
