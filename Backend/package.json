@@ -23,6 +23,7 @@
     "mammoth": "^1.12.0",
     "mongoose": "^7.0.0",
     "package.js": "^1.1.3",
+    "pdf-parse": "^2.4.5",
     "puppeteer": "^25.0.2",
     "zod": "^4.4.3"
   }
