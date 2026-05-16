@@ -6,7 +6,7 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
-const allowedOrigins = ["http://localhost:5173", "http://localhost:3000"]
+const allowedOrigins = ["http://localhost:5173", "http://localhost:3000", "https://intervai-backend-bdks.onrender.com"]
 if (process.env.FRONTEND_URL) {
     allowedOrigins.push(process.env.FRONTEND_URL)
 }
