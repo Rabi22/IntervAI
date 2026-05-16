@@ -45,7 +45,13 @@ async function registerUserController(req,res) {
         process.env.JWT_SECRET,
         {expiresIn:"1d"}
     )
-    res.cookie("token",token_username)
+    res.cookie("token", token_username, {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 86400000
+    })
 
     res.status(201).json({
         message:"User logged in successfully",
@@ -87,7 +93,13 @@ async function loginUserController(req,res){
         process.env.JWT_SECRET,
         {expiresIn:"1d"}
     )
-    res.cookie("token",token_Passwd);
+    res.cookie("token", token_Passwd, {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 86400000
+    });
     res.status(200).json({
         message:"User logged in Successfully",
         user:{
@@ -107,9 +119,10 @@ async function logoutUserController(req,res) {
     }
 
     res.clearCookie('token', {
-        httpOnly: true, //token must match
+        httpOnly: true,
         secure: false,
-        sameSite: 'strict'
+        sameSite: 'lax',
+        path: '/'
     });
 
     res.status(200).json({
