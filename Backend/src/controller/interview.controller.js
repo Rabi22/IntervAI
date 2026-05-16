@@ -1,4 +1,4 @@
-const pdfParse = require("pdf-parse")
+const pdfParse = require("pdf-parse-new")
 const mammoth = require("mammoth")
 const { generateInterviewReport, generateResumePdf } = require("../services/ai.service")
 const interviewReportModel = require("../../src/config/models/InterviewReport.Model")
