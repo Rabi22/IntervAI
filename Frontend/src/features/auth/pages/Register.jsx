@@ -58,6 +58,12 @@ const Register = () => {
 
                 <p>Already have an account? <Link to={"/login"} >Login</Link> </p>
             </div>
+
+            <footer>
+                <p>&copy; {new Date().getFullYear()} AI Interview Prep</p>
+                <p>Privacy Policy • Terms of Service</p>
+                <p>Made by Biswasmruti Pradhan</p>
+            </footer>
         </main>
     )
 }

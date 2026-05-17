@@ -51,6 +51,12 @@ const Login = () => {
                 </form>
                 <p>Don't have an account? <Link to={"/register"} >Register</Link> </p>
             </div>
+
+            <footer>
+                <p>&copy; {new Date().getFullYear()} AI Interview Prep</p>
+                <p>Privacy Policy • Terms of Service</p>
+                <p>Made by Biswasmruti Pradhan</p>
+            </footer>
         </main>
     )
 }
