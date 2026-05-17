@@ -114,7 +114,7 @@ const Interview = () => {
                             </button>
                         ))}
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                    <div className='interview-nav__actions'>
                         <button
                             onClick={() => { getResumePdf(interviewId) }}
                             className='button primary-button' >
@@ -123,9 +123,7 @@ const Interview = () => {
                         </button>
                         <button
                             onClick={() => navigate('/')}
-                            className='button' style={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#a0a0a0' }}
-                            onMouseOver={(e) => { e.currentTarget.style.color = 'white'; e.currentTarget.style.background = 'rgba(255,255,255,0.1)' }}
-                            onMouseOut={(e) => { e.currentTarget.style.color = '#a0a0a0'; e.currentTarget.style.background = 'rgba(255,255,255,0.05)' }}
+                            className='button secondary-button'
                         >
                             ← Go to Home
                         </button>

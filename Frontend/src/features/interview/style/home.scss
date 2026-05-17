@@ -168,6 +168,11 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     &__body {
         display: flex;
         min-height: 520px;
+
+        @media (max-width: 700px) {
+            flex-direction: column;
+            min-height: unset;
+        }
     }
 
     &__footer {
@@ -176,10 +181,22 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
         justify-content: space-between;
         padding: 1rem 1.5rem;
         border-top: 1px solid $border-color;
+        flex-wrap: wrap;
+        gap: 0.75rem;
 
         .footer-info {
             font-size: 0.8rem;
             color: $text-muted;
+        }
+
+        @media (max-width: 480px) {
+            flex-direction: column;
+            align-items: stretch;
+
+            .generate-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     }
 }
@@ -189,6 +206,11 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     width: 1px;
     background-color: $border-color;
     flex-shrink: 0;
+
+    @media (max-width: 700px) {
+        width: 100%;
+        height: 1px;
+    }
 }
 
 .panel {
@@ -221,6 +243,7 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     &__textarea {
         flex: 1;
         width: 100%;
+        min-height: 220px;
         background-color: $bg-input;
         border: 1px solid $border-color;
         border-radius: 0.5rem;
@@ -244,6 +267,7 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
         &--short {
             flex: unset;
             height: 96px;
+            min-height: unset;
         }
     }
 
