@@ -13,7 +13,6 @@ const allowedOrigins = [
     "https://intervai-8yx2.onrender.com"
 ]
 if (process.env.FRONTEND_URL) {
-    // Remove trailing slash if present to avoid CORS mismatch
     const envUrl = process.env.FRONTEND_URL.endsWith('/') 
         ? process.env.FRONTEND_URL.slice(0, -1) 
         : process.env.FRONTEND_URL;
@@ -31,12 +30,9 @@ app.use(cors({
     credentials: true
 }))
 
-/* require all the routes here */
 const authRouter = require("./routes/auth.routes.js")
 const interviewRouter = require("./routes/interview.routes.js")
 
-
-/* using all the routes here */
 app.use("/api/auth", authRouter)
 app.use("/api/interview", interviewRouter)
 
