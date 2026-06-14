@@ -2,6 +2,7 @@ const userModel = require("../models/user.model")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const tokenBlacklistModel = require("../models/blacklist.model")
+const crypto = require('crypto');
 
 /**
  * @name registerUserController
@@ -113,12 +114,36 @@ async function loginUserController(req,res){
     })
 }
 
+/**
+ * @name logoutUserController
+ * @description user logout
+ * @access Private
+ */
+
 async function logoutUserController(req,res) {
     const token = req.cookies.token
 
     if(token){
-        await tokenBlacklistModel.create({token})
+        try {
+      // decode to extract exp and user id quickly
+      const decoded = jwt.decode(token);
+      const exp = decoded && decoded.exp ? new Date(decoded.exp * 1000) : new Date(Date.now() + 24*60*60*1000);
+      const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+
+      await tokenBlacklistModel.create({
+        tokenHash,
+        userId: decoded?.id,
+        expiresAt: exp
+      }).catch(err => {
+        if (err && err.code !== 11000) {
+          console.error('Failed to write blacklist entry:', err);
+        }
+      });
+    } catch (err) {
+      console.error('Error while blacklisting token:', err);
     }
+  }
+
 
     const isProduction = process.env.NODE_ENV === 'production'
     res.clearCookie('token', {
