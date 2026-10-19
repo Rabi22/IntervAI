@@ -43,7 +43,7 @@ export const useAuth = () => {
     const handleLogout = async () => {
         setLoading(true)
         try {
-            const data = await logout()
+            await logout()
             setUser(null)
         } catch (err) {
             console.log(err)
@@ -71,7 +71,7 @@ export const useAuth = () => {
 
         getAndSetUser()
 
-    }, [])
+    }, [setLoading, setUser])
 
     return { user, loading, handleRegister, handleLogin, handleLogout }
 }

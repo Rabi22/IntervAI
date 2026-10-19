@@ -1,5 +1,6 @@
 const pdfParse = require("pdf-parse-new")
 const mammoth = require("mammoth")
+const mongoose = require("mongoose")
 const { generateInterviewReport, generateResumePdf } = require("../services/ai.service")
 const interviewReportModel = require("../../src/config/models/InterviewReport.Model")
 
@@ -11,6 +12,10 @@ async function generateInterViewReportController(req, res) {
     const { selfDescription, jobDescription } = req.body
     const safeSelfDescription = String(selfDescription || "").trim()
     const safeJobDescription = String(jobDescription || "").trim()
+
+    if (!safeJobDescription) {
+        return res.status(400).json({ message: "Please provide a job description." })
+    }
 
     if (!req.file && !safeSelfDescription) {
         return res.status(400).json({ message: "Please upload a PDF/TXT/DOCX resume or provide a self description." })
@@ -86,6 +91,10 @@ async function getInterviewReportByIdController(req, res) {
 
     const { interviewId } = req.params
 
+    if (!mongoose.isValidObjectId(interviewId)) {
+        return res.status(404).json({ message: "Interview report not found." })
+    }
+
     const interviewReport = await interviewReportModel.findOne({ _id: interviewId, user: req.user.id })
 
     if (!interviewReport) {
@@ -120,7 +129,14 @@ async function getAllInterviewReportsController(req, res) {
 async function generateResumePdfController(req, res) {
     const { interviewReportId } = req.params
 
-    const interviewReport = await interviewReportModel.findById(interviewReportId)
+    if (!mongoose.isValidObjectId(interviewReportId)) {
+        return res.status(404).json({ message: "Interview report not found." })
+    }
+
+    const interviewReport = await interviewReportModel.findOne({
+        _id: interviewReportId,
+        user: req.user.id
+    })
 
     if (!interviewReport) {
         return res.status(404).json({
@@ -148,6 +164,10 @@ async function deleteInterviewReportController(req, res) {
     const { interviewId } = req.params
 
     try {
+        if (!mongoose.isValidObjectId(interviewId)) {
+            return res.status(404).json({ message: "Interview report not found." })
+        }
+
         const deleted = await interviewReportModel.findOneAndDelete({ _id: interviewId, user: req.user.id })
 
         if (!deleted) {

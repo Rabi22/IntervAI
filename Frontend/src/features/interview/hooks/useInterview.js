@@ -1,5 +1,5 @@
 import { getAllInterviewReports, generateInterviewReport, getInterviewReportById, generateResumePdf, deleteInterviewReport } from "../services/interview.api"
-import { useContext, useEffect } from "react"
+import { useCallback, useContext, useEffect } from "react"
 import { InterviewContext } from "../interview.context"
 import { useParams } from "react-router"
 
@@ -18,9 +18,8 @@ export const useInterview = () => {
     const generateReport = async ({ jobDescription, selfDescription, resumeFile }) => {
         setLoading(true)
         setError(null)
-        let response = null
         try {
-            response = await generateInterviewReport({ jobDescription, selfDescription, resumeFile })
+            const response = await generateInterviewReport({ jobDescription, selfDescription, resumeFile })
             console.log("[useInterview] generateReport response:", response)
             if (response?.interviewReport) {
                 setReport(response.interviewReport)
@@ -36,7 +35,7 @@ export const useInterview = () => {
         return null
     }
 
-    const getReportById = async (id) => {
+    const getReportById = useCallback(async (id) => {
         setLoading(true)
         setError(null)
         try {
@@ -59,14 +58,13 @@ export const useInterview = () => {
             setLoading(false)
         }
         return null
-    }
+    }, [setError, setLoading, setReport])
 
-    const getReports = async () => {
+    const getReports = useCallback(async () => {
         setLoading(true)
         setError(null)
-        let response = null
         try {
-            response = await getAllInterviewReports()
+            const response = await getAllInterviewReports()
             if (response?.interviewReports) {
                 setReports(response.interviewReports)
                 return response.interviewReports
@@ -77,7 +75,7 @@ export const useInterview = () => {
             setLoading(false)
         }
         return null
-    }
+    }, [setError, setLoading, setReports])
 
     const deleteReport = async (interviewId) => {
         try {
@@ -126,7 +124,7 @@ export const useInterview = () => {
         } else {
             getReports()
         }
-    }, [ interviewId ])
+    }, [ interviewId, report, getReportById, getReports ])
 
     return { loading, report, reports, error, generateReport, getReportById, getReports, getResumePdf, deleteReport }
 

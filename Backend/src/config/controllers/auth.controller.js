@@ -11,11 +11,13 @@ const crypto = require('crypto');
  */
 
 async function registerUserController(req,res) {
-    const {username,email,password} = req.body
+    const username = String(req.body.username || "").trim()
+    const email = String(req.body.email || "").trim().toLowerCase()
+    const password = String(req.body.password || "")
 
-    if(!username || !email || !password){
+    if(!username || !email || !password || password.length < 8){
         return res.status(400).json({
-            message : "Please provide username , email & password"
+            message : "Please provide a username, a valid email, and a password of at least 8 characters."
         })
     }
 
@@ -72,7 +74,8 @@ async function registerUserController(req,res) {
  */
 
 async function loginUserController(req,res){
-    const {email,password} = req.body;
+    const email = String(req.body.email || "").trim().toLowerCase()
+    const password = String(req.body.password || "")
 
     const user = await userModel.findOne({email})
 
@@ -166,6 +169,10 @@ async function logoutUserController(req,res) {
 
 async function getMeController(req,res){
     const user = await userModel.findById(req.user.id)
+
+    if (!user) {
+        return res.status(404).json({ message: "User not found." })
+    }
 
     res.status(200).json({
         message : "User deatils fetched successfully",
