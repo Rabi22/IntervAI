@@ -3,8 +3,14 @@ const { z } = require("zod")
 const { zodToJsonSchema } = require("zod-to-json-schema")
 const puppeteer = require("puppeteer")
 
+const geminiApiKey = process.env.GEMINI_API_KEY?.trim()
+
+if (!geminiApiKey) {
+    throw new Error("GEMINI_API_KEY is missing. Add a valid Google Gemini API key to Backend/.env and restart the backend.")
+}
+
 const ai = new GoogleGenAI({
-    apiKey: process.env.GEMINI_API_KEY
+    apiKey: geminiApiKey
 })
 
 
