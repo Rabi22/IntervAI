@@ -128,6 +128,10 @@ JWT_SECRET=your_strong_random_secret
 GEMINI_API_KEY=your_gemini_api_key
 ```
 
+The value must be an active Google Gemini API key created in Google AI Studio.
+Do not include `||`, a second URL, or surrounding application code in the value.
+Restart the backend after changing `Backend/.env`.
+
 Start the backend:
 
 ```bash
